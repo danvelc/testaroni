@@ -17,7 +17,7 @@ if (!file_exists($nombre_fichero)) {
 if (filesize($nombre_fichero) == 0){
   $vacio = false;
 }else{
-  $file = fopen($nombre_fichero, "r") || exit("Error abriendo fichero!");
+  $file = fopen($nombre_fichero, "r");
   $linea = fgets($file);
   $terminal =  explode("_", $linea);
   $mid = trim($terminal[0]);
@@ -30,7 +30,7 @@ $merchantId=$mid;//Homologación 7100040113
 $terminalId=$tid;//BP para OTT
 $_SESSION['merchterm'] = $merchterm;
 
-function request($items, $total,$iva,$totaTarifa12,$totalBase0,$email, $primer_nombre, $segundo_nombre, $apellido, $cedula, $trx,$ip_address, $finger,$merchterm,
+function request($items, $total, $iva, $totaTarifa12, $totalBase0, $email, $primer_nombre, $segundo_nombre, $apellido, $cedula, $trx, $ip_address, $finger, $merchterm,
 	$telefono, $direccion_cliente, $pais_cliente, $direccion_entrega, $pais_entrega) {
 	$finger = urlencode($finger);
 	$i = 0;
@@ -65,11 +65,11 @@ function request($items, $total,$iva,$totaTarifa12,$totalBase0,$email, $primer_n
 		"&customParameters[".$merchterm."]=00810030070103910004012".$valueIva."05100817913101052012".$valueTotalBase0."053012".$valueTotalIva;
 		
 	foreach ($items["cart"] as $c) {
-		
-		$data.= "&cart.items[".$i."].name=".$c["product_name"];
-		$data.= "&cart.items[".$i."].description="."Descripcion: ".$c["product_name"];
-		$data.= "&cart.items[".$i."].price=".$c["product_price"];
-		$data.= "&cart.items[".$i."].quantity=".$c["q"];		
+		$ci = &cart.items[".$i."];
+		$data.= "$ci.name=".$c["product_name"];
+		$data.= "$ci.description="."Descripcion: ".$c["product_name"];
+		$data.= "$ci.price=".$c["product_price"];
+		$data.= "$ci.quantity=".$c["q"];		
 		$i++;
 	}
 	
